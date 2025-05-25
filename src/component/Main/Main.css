@@ -1,0 +1,17 @@
+.main-cls{
+    margin-top: 80px;
+}
+.Hletters {
+    font-weight: bold;
+    font-size: 52px;
+  }
+  .paraHeight{
+    font-size: 22px;
+    color:grey;
+  }
+  .colo-btn{
+    background-color: #f7f5f5;
+  }
+  .colo-btn:hover{
+    background-color: #b1aeae;
+  }

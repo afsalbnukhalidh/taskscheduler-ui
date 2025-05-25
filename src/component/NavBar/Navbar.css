@@ -1,0 +1,46 @@
+
+.sidebar {
+  background-color: #343a40; /* Bootstrap dark */
+  color: white;
+  height: 100vh;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  overflow-y: auto;
+}
+
+.sidebar h4 {
+  margin-bottom: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.nav-link {
+  color: #ccc;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #495057;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.nav-item + .nav-item {
+  margin-top: 0.5rem;
+}
+
+/* Responsive for small screens (optional) */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+}
+
