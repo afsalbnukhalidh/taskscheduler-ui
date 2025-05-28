@@ -3,17 +3,14 @@
   height: 100vh;
 }
 
-.content {
+.content-Admin{
   flex-grow: 1;
   overflow-y: auto;
-  /*margin-left: 250px;  to clear the fixed sidebar */
-  padding-left: 1rem;
-  padding-right: 1rem;
   height: 100vh;
   box-sizing: border-box;
 }
 @media (max-width: 768px) {
-  .content {
+  .content-Admin {
     margin-left: 0;
   }
 }

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated,setUserRole }) => {
   const [userName, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -28,7 +29,11 @@ const Login = ({ setIsAuthenticated }) => {
       if (data.status === 'success') {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        
+        const decoded = jwtDecode(data.accessToken);
+        const role = Array.isArray(decoded.role) ? decoded.role[0] : decoded.role;
         setIsAuthenticated(true);
+        setUserRole(role); 
         navigate('/');
       } else {
         alert(data.message || 'Login failed');

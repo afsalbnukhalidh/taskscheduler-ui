@@ -5,9 +5,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-
 import { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import Layout from './component/LayOut/LayOut';
-import Main from './component/Main/Main';
 import Login from './component/Login/Login';
 import UserCreation from './component/UserCreation/UserCreation';
+import AdminLayout from './component/AdminLayout/AdminLayout';
+import AdminUserCreation from './component/AdminUserCreation/AdminUserCreation';
+import Dashboard from './component/Dashboard/Dashboard';
+import Projects from './component/Projects/Projects';
+import TaskList from './component/TaskList/TaskList';
 
 // Layout for protected routes
 function ProtectedLayout() {
@@ -17,32 +21,42 @@ function ProtectedLayout() {
     </Layout>
   );
 }
-
+function ProtectedAdminLayout() {
+  return (
+    <AdminLayout>
+      <Outlet />
+    </AdminLayout>
+  );
+}
 // Application routes
-function AppLayout({ isAuthenticated, userRole, setIsAuthenticated }) {
+function AppLayout({ isAuthenticated, userRole,userId, setIsAuthenticated,setUserRole,setUserId }) {
   return (
     <Routes>
       {/* Login route */}
       <Route
         path="/Login"
         element={
-          isAuthenticated ? <Navigate to="/" replace /> : <Login setIsAuthenticated={setIsAuthenticated} />
+          isAuthenticated ? <Navigate to="/" replace /> : <Login setIsAuthenticated={setIsAuthenticated} setUserRole={setUserRole}/>
         }
       />
-
-      {/* Protected routes */}
-      {isAuthenticated && (
+      {isAuthenticated && userRole === 'User' && (
         <Route element={<ProtectedLayout />}>
-          {/* Common route for both Admin and User */}
-          <Route path="/" element={<Main />} />
-
-          {/* Only Admin can access this */}
-          {userRole === 'Admin' && 
-            <Route path="/UserCreation" element={<UserCreation />}
-            
-        />}
+          <Route path="/" element={<TaskList userId={userId} />
+        } />
         </Route>
-      )}
+      )};
+      {/* Protected routes */}
+      {isAuthenticated && userRole === 'Admin' && (
+        <Route element={<ProtectedAdminLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/UserCreation" element={<UserCreation />} >
+            <Route index element={<AdminUserCreation />} />
+          </Route>
+          <Route path="/Projects" element={<Projects />} />
+        </Route>
+      )};
+    
 
       {/* Catch-all redirect */}
       <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/Login"} replace />} />
@@ -54,6 +68,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('');
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -63,6 +78,8 @@ function App() {
       try {
         const decodedToken = jwtDecode(token);
         const role = Array.isArray(decodedToken.role) ? decodedToken.role[0] : decodedToken.role;
+        const userId = decodedToken.sub;
+        setUserId(userId);
         setUserRole(role);
         setIsAuthenticated(true);
       } catch (err) {
@@ -83,7 +100,10 @@ function App() {
       <AppLayout
         isAuthenticated={isAuthenticated}
         userRole={userRole}
+        userId={userId}
         setIsAuthenticated={setIsAuthenticated}
+        setUserRole={setUserRole}
+        setUserId={setUserId}
       />
     </Router>
   );

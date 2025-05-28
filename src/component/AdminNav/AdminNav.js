@@ -1,6 +1,10 @@
+import { useNavigate, Link } from 'react-router-dom';
+
 const AdminNav = () => {
+    const navigate = useNavigate();
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-secondary shadow-sm px-4">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-secondary shadow-sm px-4 position-sticky top-0">
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -8,13 +12,13 @@ const AdminNav = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <a className="nav-link active" href="/">Home</a>
+                            <Link className="nav-link active" href="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/about">About</a>
+                            <Link className="nav-link" to="/UserCreation">Users</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/contact">Contact</a>
+                            <Link className="nav-link" href="/contact">Contact</Link>
                         </li>
                         </ul>
                         <span className="navbar-text text-white">

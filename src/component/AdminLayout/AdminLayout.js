@@ -2,9 +2,10 @@
 import React,{useEffect,useState} from "react";
 import {jwtDecode} from 'jwt-decode';
 import Nav from '../NavBar/Nav'; 
-import './LayOut.css'; // optional for layout styles
+import './AdminLayout.css'; 
+import AdminNav from '../AdminNav/AdminNav';
 
-const Layout = ({ children }) => {
+const AdminLayout = ({ children }) => {
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
@@ -27,13 +28,14 @@ const Layout = ({ children }) => {
   return (
     <div className="app-layout d-flex">
       <Nav />
-      { userRole === 'User' && (
-         <main className="content flex-grow-1 p-3">
+      { userRole === 'Admin' && (
+        <main className="content-Admin flex-grow-1">
+            <AdminNav/>
           {children}
-         </main>
+        </main>
       )}
     </div>
   );
 };
 
-export default Layout;
+export default AdminLayout;
